@@ -1,5 +1,4 @@
-
-import csv
+import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 
@@ -20,16 +19,11 @@ for key in hotKeys:
     except AttributeError:
         price = "not found"
 
-    line = index, title, author, price
+    line = [index, title, author, price]
     result.append(line)
-    if index > 20:
+    if index > 19:
         break
 
-f = open("210130_bookCsv.csv", "w")
-f.write("순위, 상품명, 샵이름, 가격"+"\n")
-csvWriter = csv.writer(f)
+result = pd.DataFrame(result, columns=['index', 'title', 'author', 'price'])
+result.to_csv('210203_bookCsv.csv', index=False, encoding='utf-8')
 
-for i in range(0, 20):
-    f.write(str(result[i])+"\n")
-
-f.close()
